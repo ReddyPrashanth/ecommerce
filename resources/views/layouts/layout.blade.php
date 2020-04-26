@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
     <script src="https://kit.fontawesome.com/f5e9870331.js" crossorigin="anonymous"></script>
     <script src="https://js.stripe.com/v3/"></script>
+    <livewire:styles>
 </head>
 <body class="font-sans bg-gray-100">
     @include('layouts.header')
     @yield('content')
     @include('layouts.footer')
+    <livewire:scripts>
     @yield('scripts')
 </body>
 </html>
