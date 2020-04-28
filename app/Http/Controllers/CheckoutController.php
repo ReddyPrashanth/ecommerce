@@ -22,6 +22,9 @@ class CheckoutController extends Controller
     }
 
     public function chargeWithStripe(CheckoutRequest $request){
+        if(Cart::instance('default')->count() == 0 ){
+            return back()->withErrors('Your cart is empty! Please add items before checkout.');
+        }
         $contents = Cart::content()->map(function ($item) {
             return $item->model->slug.', '.$item->qty;
         })->values()->toJson();

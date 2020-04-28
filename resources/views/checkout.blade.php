@@ -102,7 +102,7 @@
                         <div id="card-errors" role="alert" class="text-sm text-red-600"></div>
                     </div>
 
-                    <button class="bg-teal-800 text-gray-100 p-2 mt-8 border border-teal-800 hover:bg-white hover:text-black hover:border-black rounded" id="complete-order" type="submit">Proceed to Checkout</button>
+                    <button class="bg-teal-800 text-gray-100 p-2 mt-8 border border-teal-800 hover:bg-white hover:text-black hover:border-black rounded" id="complete-order" type="submit" {{Cart::instance('default')->count() == 0 ? 'disabled' : ''}}>Proceed to Checkout</button>
                 </form>
             </div>
             <div class="w-1/3">

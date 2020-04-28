@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/home');
+Auth::routes();
+
 Route::get('/home', 'HomeController@home')->name('ecommerce.home');
 Route::get('/shop', 'ProductController@index')->name('shop.index');
 Route::get('/shop/{slug}', 'ProductController@show')->name('shop.show');
@@ -35,3 +36,9 @@ Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
 Route::post('/checkout/charge', 'CheckoutController@chargeWithStripe')->name('stripe.charge');
 
 Route::get('/confirmation', 'ConfirmationController@index')->name('confirmation.index');
+
+Route::get('/customLogin', function(){
+    return view('auth.custom-login');
+});
+
+Route::redirect('/', '/home');
