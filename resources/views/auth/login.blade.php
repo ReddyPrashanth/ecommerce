@@ -49,16 +49,17 @@
         <div class="w-2/5 ml-32">
             <h2 class="text-3xl font-medium">Guest Checkout</h2>
             <div class="mt-8 border p-8 rounded shadow-md">
-                <form action="#" method='POST'>
+                <form action="{{route('guestCheckout.email')}}" method='POST'>
+                    @csrf
                     <div class="px-3 mb-6">
                     <p>You don't need an account to checkout. Use our simple Guest checkout option.</p>
                     </div>
                     <div class="px-3 mb-6">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="guestemail">
                             {{ __('E-Mail Address') }}
                         </label>
-                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="email" name="email" type="text" placeholder="E-Mail Address">
-                        @error('email')
+                        <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="guestemail" name="guestemail" type="text" placeholder="E-Mail Address">
+                        @error('guestemail')
                         <p class="text-red-500 text-xs italic">{{$message}}</p>
                         @enderror
                     </div>

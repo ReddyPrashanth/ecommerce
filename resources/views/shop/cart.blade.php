@@ -46,7 +46,7 @@
                 <div class="w-8 mr-12">
                 <div class="relative">
                     <select class="p-1 rounded bg-white border border-black quantity" data-id="{{$item->rowId}}">
-                    @for ($i = 1; $i < 5 + 1 ; $i++)
+                    @for ($i = 1; $i < $item->model->quantity + 1 ; $i++)
                         <option {{ $item->qty == $i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
                     </select>
@@ -115,9 +115,9 @@
                 <div class="w-8 mr-12">
                 <div class="relative">
                     <select class="p-1 rounded bg-white border border-black">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                    @for ($i = 1; $i < $item->model->quantity + 1 ; $i++)
+                        <option {{ $item->qty == $i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
                     </select>
                 </div>
                 </div>
@@ -134,7 +134,6 @@
     <x-also-like :mightAlsoLike="$mightAlsoLike" />
 @endsection
 @section('scripts')
-    <script src="{{asset('js/app.js')}}"></script>
     <script>
         (function(){
             const classnames = document.querySelectorAll('.quantity');

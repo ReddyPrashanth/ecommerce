@@ -11,9 +11,12 @@
 </head>
 <body class="font-sans bg-gray-100">
     @include('layouts.header')
+    <div id="app">
     @yield('content')
+    </div>
     @include('layouts.footer')
     <livewire:scripts>
+    <script src="{{asset('js/app.js')}}"></script>
     @yield('scripts')
 </body>
 </html>

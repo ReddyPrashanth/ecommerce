@@ -28,7 +28,7 @@ class CartController extends Controller
             return redirect()->route('shop.cart')->with('success_message', 'Item is already in the cart!');
         }
 
-        Cart::instance('default')->add($request->id, $request->name, 1, $request->price)
+        Cart::instance('default')->add($request->id, $request->name, $request->quantity, $request->price)
             ->associate('App\Product');
         return redirect()->route('shop.cart')->with('success_message', 'Item was added to your cart!');
         
@@ -48,6 +48,37 @@ class CartController extends Controller
         Cart::update($id, $request->quantity);
 
         session()->flash('success_message', 'Quantity was updated successfully!');
+        return response()->json([
+            'success' => true
+        ], 200);
+    }
+
+    public function addToCart(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric',
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric'
+        ]);
+        
+        if($validator->fails()){
+            session()->flash('errors', collect(['Cannot add product to the cart!']));
+            return response()->json(['success'=> false], 400);
+        }
+
+        $duplicates = Cart::instance('default')->search(function($cartItem, $rowId) use ($request){
+            return $cartItem->id === $request->id;
+        });
+
+        if($duplicates->isNotEmpty()){
+            session()->flash('success_message', 'Product already exists in the cart!');
+        }else{
+            Cart::instance('default')->add($request->id, $request->name, $request->quantity, $request->price)
+            ->associate('App\Product');
+
+            session()->flash('success_message', 'Product was successfully added to cart!');
+        }
+
         return response()->json([
             'success' => true
         ], 200);

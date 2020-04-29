@@ -23,6 +23,18 @@
                 </ul> -->
             </div>
             <div class="w-4/5">
+                @if(session()->has('success_message'))
+                <x-alert color="green" width="w-full" :message="session()->get('success_message')"/>
+                @endif
+                @if(count($errors) > 0)
+                <div class="flex items-center bg-red-500 text-white text-sm font-bold px-4 py-3 w-3/5 mb-4 rounded" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li >{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                </div>
+                @endif
                 <div class="flex items-center">
                     <div class="w-2/3">
                         <h2 class="font-medium text-4xl mb-6">{{$categoryName}}</h2>
@@ -33,11 +45,19 @@
                 </div>
                 <div class="flex flex-wrap content-start">
                     @foreach($products as $product)
-                    <div class="w-1/4 p-2">
+                    <div class="w-1/3 p-6">
                         <a href="{{route('shop.show', ['slug' => $product->slug])}}"><img src="{{asset('images/products/'.$product->slug.'.jpg')}}" class="w-full h-48 rounded" alt="{{$product->slug}}"></a>
                         <div class="text-center p-2">
                             <p>{{$product->name}}</p>
                             <p>{{$product->presentPrice()}}</p>
+                        </div>
+                        <div class="text-center">
+                            <select class="px-3 py-1 rounded bg-white border-2 border-black quantity focus:outline-none">
+                                @for ($i = 1; $i < $product->quantity + 1 ; $i++)
+                                    <option value="{{$i}}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                            <button class="cart bg-gray-800 px-2 py-1 text-white rounded hover:bg-gray-100 hover:text-black border border-gray-800" data-id="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->price}}">Add to cart</button>
                         </div>
                     </div>
                     @endforeach
@@ -48,4 +68,35 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        (function(){
+            const classnames = document.querySelectorAll('.cart');
+
+            Array.from(classnames).forEach(function(element){
+                element.addEventListener('click', function(){
+                    const productId = element.getAttribute('data-id');
+                    const productName = element.getAttribute('data-name');
+                    const productPrice = element.getAttribute('data-price');
+                    const productQty = element.previousSibling.previousSibling.value;
+
+                    axios.post('/shopping/addTocart', {
+                        id: productId,
+                        name: productId,
+                        price: productPrice,
+                        quantity: productQty
+                    })
+                    .then(function (response) {
+                        console.log(response.data)
+                        window.location.reload();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        window.location.reload();
+                    });
+                })
+            })
+        })()
+    </script>
 @endsection

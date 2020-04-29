@@ -24,7 +24,14 @@
                     <input type="hidden" name="id" value="{{$product->id}}">
                     <input type="hidden" name="name" value="{{$product->name}}">
                     <input type="hidden" name="price" value="{{$product->price}}">
-                    <button class="bg-gray-800 text-gray-100 px-4 py-2 rounded" type="submit">Add to cart</button>
+                    <div>
+                    <select class="px-3 py-2 rounded bg-white border-2 border-black quantity focus:outline-none" name="quantity">
+                        @for ($i = 1; $i < $product->quantity + 1 ; $i++)
+                            <option value="{{$i}}">{{ $i }}</option>
+                        @endfor
+                    </select>
+                    <button class="bg-gray-800 text-gray-100 px-4 py-2 rounded border border-gray-800 hover:bg-gray-100 hover:text-black" type="submit">Add to cart</button>
+                    </div>
                 </form>
                 </div>
             </div>
